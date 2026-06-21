@@ -18,6 +18,9 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 .chat{position:fixed;right:15px;bottom:90px;background:#fae100;color:#000;padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:bold}
 .qty button{width:28px;height:28px}
 .small{font-size:13px;color:#666}
+ #shinbiInfo{
+  display:none;
+}
 
  .hero-img{
  width:100%;
@@ -54,23 +57,6 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 </div>
  
 <div class="card">
-<h3>🍑 신비복숭아</h3>
-
-<img src="shinbi-cut.png" class="section-img">
-
-<p>
-겉은 천도복숭아처럼 매끈하지만
-속은 백도처럼 부드럽고 달콤합니다.
-</p>
-
-<p>
-수확 기간이 짧아
-2주 동안만 맛볼 수 있는 특별한 품종입니다.
-</p>
-
-</div>
- 
-<div class="card">
 <h3>옵션 선택</h3>
 <select id="fruit">
 <option value="">🍑 복숭아 종류 선택</option>
@@ -87,6 +73,23 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <button class="btn add" onclick="addItem()">상품 추가</button>
 </div>
+
+<div class="card" id="shinbiInfo">
+<h3>🍑 신비복숭아</h3>
+
+<img src="shinbi-cut.png" class="section-img">
+
+<p>
+겉은 천도복숭아처럼 매끈하지만
+속은 백도처럼 부드럽고 달콤합니다.
+</p>
+
+<p>
+수확 기간이 짧아
+2주 동안만 맛볼 수 있는 특별한 품종입니다.
+</p>
+
+</div> 
 
 <div class="card">
 <h3>선택한 상품</h3>
@@ -118,6 +121,22 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <script>
 let cart=[];
+
+document.addEventListener('DOMContentLoaded', function(){
+
+  document.getElementById('fruit').addEventListener('change', function(){
+
+    const fruit = this.value;
+
+    if(fruit === '신비복숭아'){
+      document.getElementById('shinbiInfo').style.display = 'block';
+    }else{
+      document.getElementById('shinbiInfo').style.display = 'none';
+    }
+
+  });
+
+});
 
 function addItem(){
 
