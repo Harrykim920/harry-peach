@@ -31,12 +31,14 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 <div class="card">
 <h3>옵션 선택</h3>
 <select id="fruit">
-<option>신비복숭아</option>
-<option>딱복(딱딱복숭아)</option>
-<option>물복(물렁복숭아)</option>
+<option value="">🍑 복숭아 종류 선택</option>
+<option value="신비복숭아">신비복숭아</option>
+<option value="딱복(딱딱복숭아)">딱복(딱딱복숭아)</option>
+<option value="물복(물렁복숭아)">물복(물렁복숭아)</option>
 </select>
 
 <select id="weight">
+<option value="">📦 중량 선택</option>
 <option value="25000">2.5kg (25,000원)</option>
 <option value="35000">4kg (35,000원)</option>
 </select>
@@ -76,15 +78,34 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 let cart=[];
 
 function addItem(){
+
  const fruit=document.getElementById('fruit').value;
  const w=document.getElementById('weight');
+
+ // 복숭아 선택 확인
+ if(!fruit){
+   alert('복숭아 종류를 선택해주세요.');
+   return;
+ }
+
+ // 중량 선택 확인
+ if(!w.value){
+   alert('중량을 선택해주세요.');
+   return;
+ }
+
  cart.push({
    fruit:fruit,
    text:w.options[w.selectedIndex].text,
    price:Number(w.value),
    qty:1
  });
+
  render();
+
+ // 선택창 초기화 (선택사항)
+ document.getElementById('fruit').selectedIndex = 0;
+ document.getElementById('weight').selectedIndex = 0;
 }
 
 function render(){
