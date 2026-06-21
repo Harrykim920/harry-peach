@@ -53,18 +53,17 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 <img src="main-peach.png" class="hero-img">
  
 <h1>🍑 해리네복숭아</h1>
-<p>충북 영동에서 직접 재배한 신선한 복숭아</p>
-<p>🚚 전국 무료배송</p>
+<p>충북 영동에서 직접 재배한 신선한 복숭아 · 🚚 전국 무료배송</p>
 
 </div>
 
 <div class="card">
-<h3>옵션 선택</h3>
+<h3>🍑 상품 선택</h3>
 <select id="fruit">
 <option value="">🍑 복숭아 종류 선택</option>
-<option value="신비복숭아">신비복숭아</option>
-<option value="딱복(딱딱복숭아)">딱복(딱딱복숭아)</option>
-<option value="물복(물렁복숭아)">물복(물렁복숭아)</option>
+<option value="신비복숭아">🍑 신비복숭아</option>
+<option disabled>🚧 딱복(딱딱복숭아) (준비중)</option>
+<option disabled>🚧 물복(물렁복숭아) (준비중)</option>
 </select>
 
 <select id="weight">
@@ -247,12 +246,13 @@ async function order(){
    const result = await response.json();
   
 alert(
-  '🍑 주문이 정상 접수되었습니다.\n\n' +
-  '주문번호 : ' + (result.orderNo || '생성중') + '\n\n' +
-  '입금계좌\n' +
-  '카카오뱅크 3333-28-9334030\n' +
-  '예금주 김창호\n\n' +
-  '입금확인 후 순차적으로 배송됩니다.'
+'🎉 주문이 정상 접수되었습니다.\n\n' +
+'주문번호 : ' + (result.orderNo || '생성중') + '\n\n' +
+'입금계좌\n' +
+'카카오뱅크 3333-28-9334030\n' +
+'예금주 김창호\n\n' +
+'※ 계좌번호를 길게 눌러 복사하세요.\n\n' +
+'입금확인 후 순차적으로 배송됩니다.'
 );
 
 // 초기화
