@@ -163,7 +163,27 @@ async function order(){
    const result = await response.json();
 
    alert('🍑 주문이 접수되었습니다.\n\n주문번호 : ' + (result.orderNo || '생성중') + '\n\n입금 확인 후 순차 발송됩니다.');
+// 장바구니 초기화
+cart = [];
+render();
 
+// 주문자 정보 초기화
+document.getElementById('name').value = '';
+document.getElementById('phone').value = '';
+document.getElementById('postcode').value = '';
+document.getElementById('addr').value = '';
+document.getElementById('addr2').value = '';
+document.getElementById('memo').value = '';
+
+// 옵션 초기화
+document.getElementById('fruit').selectedIndex = 0;
+document.getElementById('weight').selectedIndex = 0;
+
+// 상단 이동
+window.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+});
  }catch(error){
    console.error(error);
    alert('주문 저장에 실패했습니다. Apps Script 권한 또는 배포 설정을 확인해주세요.');
