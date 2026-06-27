@@ -95,8 +95,11 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <div class="card">
   <h3>주문자 정보</h3>
-  <input id="name" placeholder="이름">
-  <input id="phone" placeholder="연락처">
+  <label style="font-size:13px;color:#333">이름 <span style="color:#e53935">*필수</span></label>
+  <input id="name" placeholder="이름을 입력하세요">
+  <label style="font-size:13px;color:#333">연락처 <span style="color:#e53935">*필수</span></label>
+  <input id="phone" placeholder="연락처를 입력하세요">
+  <label style="font-size:13px;color:#333">주소 <span style="color:#e53935">*필수</span></label>
   <button type="button" class="btn" onclick="execDaumPostcode()">주소 검색</button>
   <input id="postcode" placeholder="우편번호" readonly>
   <input id="addr" placeholder="주소" readonly>
@@ -246,6 +249,9 @@ function execDaumPostcode() {
 
 function order() {
   if (cart.length === 0) { alert('상품을 선택해주세요.'); return; }
+  if (!document.getElementById('name').value.trim()) { alert('이름을 입력해주세요.'); document.getElementById('name').focus(); return; }
+  if (!document.getElementById('phone').value.trim()) { alert('연락처를 입력해주세요.'); document.getElementById('phone').focus(); return; }
+  if (!document.getElementById('addr').value.trim()) { alert('주소를 검색해주세요.'); return; }
   var totalPrice = document.getElementById('btotal').innerText;
   var orderItems = '';
   for (var i = 0; i < cart.length; i++) {
