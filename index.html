@@ -34,6 +34,20 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 .code-ok{color:#2a9d2a;font-weight:bold;font-size:14px;margin-top:6px;display:none}
 .code-err{color:#d32f2f;font-size:14px;margin-top:6px;display:none}
 .discount-badge{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:6px 10px;font-size:13px;color:#856404;margin-top:8px;display:none}
+
+/* 주문완료 모달 */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:340px;width:90%;text-align:center}
+.modal h2{margin:0 0 12px;color:#ef7f54}
+.modal .order-no{font-size:13px;color:#666;margin-bottom:16px}
+.modal .account-box{background:#fff8f3;border:2px solid #ef7f54;border-radius:12px;padding:14px;margin:12px 0;cursor:pointer;position:relative}
+.modal .account-box .bank{font-size:13px;color:#666;margin-bottom:4px}
+.modal .account-box .number{font-size:20px;font-weight:bold;letter-spacing:1px;color:#333}
+.modal .copy-hint{font-size:12px;color:#ef7f54;margin-top:6px}
+.modal .copy-done{display:none;font-size:13px;color:#2a9d2a;font-weight:bold;margin-top:6px}
+.modal .notice{font-size:13px;color:#555;margin-top:12px;line-height:1.6}
+.modal .close-btn{margin-top:16px;width:100%;background:#ef7f54;color:#fff;border:none;padding:14px;border-radius:10px;font-size:16px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -106,6 +120,23 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 </div>
 
 <a class="chat" href="https://open.kakao.com/o/smxbeCAi" target="_blank">💬 문의</a>
+
+<!-- 주문완료 모달 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>🎉 주문 접수 완료!</h2>
+    <div class="order-no" id="modalOrderNo"></div>
+    <p style="font-size:14px;color:#333;margin:0 0 4px">아래 계좌로 입금해주세요</p>
+    <div class="account-box" onclick="copyAccount()" id="accountBox">
+      <div class="bank">카카오뱅크 · 예금주 김창호</div>
+      <div class="number">3333-28-9334030</div>
+      <div class="copy-hint">👆 탭하여 복사</div>
+      <div class="copy-done" id="copyDone">✅ 복사되었습니다!</div>
+    </div>
+    <div class="notice">입금 확인 후 순차적으로 배송됩니다.</div>
+    <button class="close-btn" onclick="closeModal()">확인</button>
+  </div>
+</div>
 
 <script>
 // ── 가격 테이블 ──────────────────────────────────────
@@ -205,82 +236,28 @@ function render(){
 function chg(i, d){ cart[i].qty = Math.max(1, cart[i].qty + d); render(); }
 function delItem(i){ cart.splice(i, 1); render(); }
 
-// ── 주소 검색 ────────────────────────────────────────
-function execDaumPostcode(){
-  new daum.Postcode({
-    oncomplete: function(data){
-      document.getElementById('postcode').value = data.zonecode;
-      document.getElementById('addr').value     = data.address;
-      document.getElementById('addr2').focus();
-    }
-  }).open();
-}
-
-// ── 주문 전송 ────────────────────────────────────────
-async function order(){
-  if(cart.length === 0){ alert('상품을 선택해주세요.'); return; }
-
-  const totalPrice = document.getElementById('btotal').innerText;
-  let orderItems = '';
-  cart.forEach(c => {
-    orderItems += `${c.fruit} / ${c.label} (${c.price.toLocaleString()}원) x ${c.qty}\n`;
+// ── 계좌번호 복사 ─────────────────────────────────────
+function copyAccount(){
+  const num = '3333-28-9334030';
+  navigator.clipboard.writeText(num).then(()=>{
+    document.getElementById('copyDone').style.display = 'block';
+    document.querySelector('.copy-hint').style.display = 'none';
+  }).catch(()=>{
+    // 구형 브라우저 fallback
+    const el = document.createElement('textarea');
+    el.value = num;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    document.getElementById('copyDone').style.display = 'block';
+    document.querySelector('.copy-hint').style.display = 'none';
   });
-
-  const payload = {
-    name:       document.getElementById('name').value,
-    phone:      document.getElementById('phone').value,
-    postcode:   document.getElementById('postcode').value,
-    address:    document.getElementById('addr').value,
-    address2:   document.getElementById('addr2').value,
-    memo:       document.getElementById('memo').value,
-    orderItems,
-    totalPrice,
-    eventCode:  codeApplied ? document.getElementById('codeInput').value : ''
-  };
-
-  try{
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(payload));
-
-    const response = await fetch(
-      'https://script.google.com/macros/s/AKfycbzpOYcJaoRkWupvcjKbP8mZ6oGAwakx599D5QLbWCA_AD0_Ua3ltuGwhCDhkwEHKul3eQ/exec',
-      { method: 'POST', body: formData }
-    );
-
-    const result = await response.json();
-
-    alert(
-      '🎉 주문이 정상 접수되었습니다.\n\n' +
-      '주문번호 : ' + (result.orderNo || '생성중') + '\n\n' +
-      '입금계좌\n' +
-      '카카오뱅크 3333-28-9334030\n' +
-      '예금주 김창호\n\n' +
-      '※ 계좌번호를 길게 눌러 복사하세요.\n\n' +
-      '입금확인 후 순차적으로 배송됩니다.'
-    );
-
-    // 초기화
-    cart = [];
-    codeApplied = false;
-    render();
-
-    ['name','phone','postcode','addr','addr2','memo','codeInput'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('fruit').selectedIndex  = 0;
-    document.getElementById('weight').selectedIndex = 0;
-    document.getElementById('codeOk').style.display    = 'none';
-    document.getElementById('codeErr').style.display   = 'none';
-    document.getElementById('discountBadge').style.display = 'none';
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  } catch(error){
-    console.error(error);
-    alert('주문 저장에 실패했습니다. Apps Script 권한 또는 배포 설정을 확인해주세요.');
-  }
 }
-</script>
 
-</body>
-</html>
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.querySelector('.copy-hint').style.display = 'block';
+}
+
+// ── 주소 검색 ───────────
