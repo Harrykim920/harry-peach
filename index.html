@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0128)file:///C:/Users/HARRY/Claude/Projects/%EB%B3%B5%EC%88%AD%EC%95%84%20%EC%A3%BC%EB%AC%B8%20%ED%94%8C%EB%9E%AB%ED%8F%BC/index.html -->
-<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>해리네복숭아 v4</title>
-<script src="./해리네복숭아_files/postcode.v2.js.download"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 body{font-family:Arial,sans-serif;background:#fff8f3;max-width:900px;margin:auto;padding:16px}
 .hero{background:#ef7f54;color:#fff;padding:30px;border-radius:16px;text-align:center}
@@ -39,7 +39,7 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 <body>
 
 <div class="hero">
-  <img src="file:///C:/Users/HARRY/Claude/Projects/%EB%B3%B5%EC%88%AD%EC%95%84%20%EC%A3%BC%EB%AC%B8%20%ED%94%8C%EB%9E%AB%ED%8F%BC/main-peach.png" class="hero-img">
+  <img src="main-peach.png" class="hero-img">
   <h1>🍑 해리네복숭아</h1>
   <p>충북 영동에서 재배한 신선한 복숭아</p>
   <p>🚚 전국 무료배송</p>
@@ -50,8 +50,8 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <select id="fruit">
     <option value="">🍑 복숭아 종류 선택</option>
     <option value="신비복숭아">🍑 신비복숭아</option>
-    <option disabled="">🚧 딱복(딱딱복숭아) (7월 오픈예정)</option>
-    <option disabled="">🚧 물복(물렁복숭아) (7월 오픈예정)</option>
+    <option disabled>🚧 딱복(딱딱복숭아) (7월 오픈예정)</option>
+    <option disabled>🚧 물복(물렁복숭아) (7월 오픈예정)</option>
   </select>
 
   <select id="weight">
@@ -67,7 +67,7 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <h3>🍑 신비복숭아</h3>
   <p>겉은 천도복숭아처럼 매끈하지만<br>속은 백도처럼 부드럽고 달콤합니다.</p>
   <p>수확 기간이 짧아<br>2주 동안만 맛볼 수 있는 특별한 품종입니다.</p>
-  <img src="file:///C:/Users/HARRY/Claude/Projects/%EB%B3%B5%EC%88%AD%EC%95%84%20%EC%A3%BC%EB%AC%B8%20%ED%94%8C%EB%9E%AB%ED%8F%BC/shinbi-cut.png" class="section-img">
+  <img src="shinbi-cut.png" class="section-img">
 </div>
 
 <!-- 이벤트 코드 -->
@@ -93,8 +93,8 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <input id="name" placeholder="이름">
   <input id="phone" placeholder="연락처">
   <button type="button" class="btn" onclick="execDaumPostcode()">주소 검색</button>
-  <input id="postcode" placeholder="우편번호" readonly="">
-  <input id="addr" placeholder="주소" readonly="">
+  <input id="postcode" placeholder="우편번호" readonly>
+  <input id="addr" placeholder="주소" readonly>
   <input id="addr2" placeholder="상세주소">
   <textarea id="memo" placeholder="배송메모"></textarea>
   <p class="small">주소검색 후 상세주소를 입력해주세요.</p>
@@ -282,6 +282,5 @@ async function order(){
 }
 </script>
 
-
-
-</body></html>
+</body>
+</html>
