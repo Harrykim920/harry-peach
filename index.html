@@ -19,29 +19,23 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 .qty button{width:28px;height:28px}
 .small{font-size:13px;color:#666}
 #shinbiInfo{display:none}
-
 .hero-img{width:100%;height:350px;object-fit:cover;border-radius:12px;display:block}
 @media(max-width:768px){.hero-img{height:240px}}
 .hero h1{margin-top:12px;margin-bottom:8px}
 .hero p{margin:6px 0}
-
 .section-img{width:80%;max-width:300px;display:block;margin:15px auto;border-radius:12px}
-
-/* 이벤트 코드 */
 .code-row{display:flex;gap:8px;margin-top:6px}
 .code-row input{margin:0}
 .code-btn{background:#ef7f54;color:#fff;border:none;padding:12px 18px;border-radius:10px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .code-ok{color:#2a9d2a;font-weight:bold;font-size:14px;margin-top:6px;display:none}
 .code-err{color:#d32f2f;font-size:14px;margin-top:6px;display:none}
 .discount-badge{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:6px 10px;font-size:13px;color:#856404;margin-top:8px;display:none}
-
-/* 주문완료 모달 */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;padding:24px;max-width:340px;width:90%;text-align:center}
 .modal h2{margin:0 0 12px;color:#ef7f54}
 .modal .order-no{font-size:13px;color:#666;margin-bottom:16px}
-.modal .account-box{background:#fff8f3;border:2px solid #ef7f54;border-radius:12px;padding:14px;margin:12px 0;cursor:pointer;position:relative}
+.modal .account-box{background:#fff8f3;border:2px solid #ef7f54;border-radius:12px;padding:14px;margin:12px 0;cursor:pointer}
 .modal .account-box .bank{font-size:13px;color:#666;margin-bottom:4px}
 .modal .account-box .number{font-size:20px;font-weight:bold;letter-spacing:1px;color:#333}
 .modal .copy-hint{font-size:12px;color:#ef7f54;margin-top:6px}
@@ -67,13 +61,11 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
     <option disabled>🚧 딱복(딱딱복숭아) (7월 오픈예정)</option>
     <option disabled>🚧 물복(물렁복숭아) (7월 오픈예정)</option>
   </select>
-
   <select id="weight">
     <option value="">📦 중량 선택</option>
     <option value="2.5kg">2.5kg (24,900원)</option>
     <option value="5kg">5kg (39,900원)</option>
   </select>
-
   <button class="btn add" onclick="addItem()">상품 추가</button>
 </div>
 
@@ -84,16 +76,15 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <img src="shinbi-cut.png" class="section-img">
 </div>
 
-<!-- 이벤트 코드 -->
 <div class="card">
-  <h3>🎟️ 이벤트 코드</h3>
+  <h3>🎟 이벤트 코드</h3>
   <div class="code-row">
-    <input id="codeInput" placeholder="이벤트 코드 입력" style="text-transform:uppercase">
+    <input id="codeInput" placeholder="이벤트 코드 입력">
     <button class="code-btn" onclick="applyCode()">적용</button>
   </div>
   <div class="code-ok" id="codeOk">✅ 할인이 적용되었습니다!</div>
   <div class="code-err" id="codeErr">❌ 유효하지 않은 코드입니다.</div>
-  <div class="discount-badge" id="discountBadge">🎉 이벤트 할인 적용 중 — 2.5kg 20,000원 / 5kg 35,000원</div>
+  <div class="discount-badge" id="discountBadge">🎉 이벤트 할인 적용 중 - 2.5kg 20,000원 / 5kg 35,000원</div>
 </div>
 
 <div class="card">
@@ -121,14 +112,13 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <a class="chat" href="https://open.kakao.com/o/smxbeCAi" target="_blank">💬 문의</a>
 
-<!-- 주문완료 모달 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h2>🎉 주문 접수 완료!</h2>
     <div class="order-no" id="modalOrderNo"></div>
     <p style="font-size:14px;color:#333;margin:0 0 4px">아래 계좌로 입금해주세요</p>
-    <div class="account-box" onclick="copyAccount()" id="accountBox">
-      <div class="bank">카카오뱅크 · 예금주 김창호</div>
+    <div class="account-box" onclick="copyAccount()">
+      <div class="bank">카카오뱅크 예금주 김창호</div>
       <div class="number">3333-28-9334030</div>
       <div class="copy-hint">👆 탭하여 복사</div>
       <div class="copy-done" id="copyDone">✅ 복사되었습니다!</div>
@@ -139,125 +129,166 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 </div>
 
 <script>
-// ── 가격 테이블 ──────────────────────────────────────
-const PRICES = {
+var PRICES = {
   '2.5kg': { normal: 24900, event: 20000 },
-  '5kg':   { normal: 39900, event: 35000 }
+  '5kg': { normal: 39900, event: 35000 }
 };
-const EVENT_CODES = ['HEESANG26', 'CHANGHO50'];
+var EVENT_CODES = ['HEESANG26', 'CHANGHO50'];
+var cart = [];
+var codeApplied = false;
 
-let cart = [];
-let codeApplied = false;
-
-// ── 상품 설명 표시 ───────────────────────────────────
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('fruit').addEventListener('change', function(){
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('fruit').addEventListener('change', function() {
     document.getElementById('shinbiInfo').style.display =
       this.value === '신비복숭아' ? 'block' : 'none';
   });
-
-  // 대문자 자동 변환
-  document.getElementById('codeInput').addEventListener('input', function(){
+  document.getElementById('codeInput').addEventListener('input', function() {
     this.value = this.value.toUpperCase();
   });
 });
 
-// ── 이벤트 코드 적용 ─────────────────────────────────
-function applyCode(){
-  const code = document.getElementById('codeInput').value.trim().toUpperCase();
-  const ok   = document.getElementById('codeOk');
-  const err  = document.getElementById('codeErr');
-  const badge= document.getElementById('discountBadge');
-
-  if(EVENT_CODES.includes(code)){
+function applyCode() {
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if (EVENT_CODES.indexOf(code) !== -1) {
     codeApplied = true;
-    ok.style.display  = 'block';
-    err.style.display = 'none';
-    badge.style.display = 'block';
-    // 이미 담긴 상품도 할인가로 재계산
+    document.getElementById('codeOk').style.display = 'block';
+    document.getElementById('codeErr').style.display = 'none';
+    document.getElementById('discountBadge').style.display = 'block';
     recalcCart();
     render();
   } else {
     codeApplied = false;
-    ok.style.display  = 'none';
-    err.style.display = 'block';
-    badge.style.display = 'none';
+    document.getElementById('codeOk').style.display = 'none';
+    document.getElementById('codeErr').style.display = 'block';
+    document.getElementById('discountBadge').style.display = 'none';
     render();
   }
 }
 
-// ── 장바구니에 상품 추가 ─────────────────────────────
-function addItem(){
-  const fruit = document.getElementById('fruit').value;
-  const wKey  = document.getElementById('weight').value;
-
-  if(!fruit){ alert('복숭아 종류를 선택해주세요.'); return; }
-  if(!wKey){  alert('중량을 선택해주세요.'); return; }
-
-  const price = codeApplied ? PRICES[wKey].event : PRICES[wKey].normal;
-  const label = wKey === '2.5kg' ? '2.5kg' : '5kg';
-
-  cart.push({ fruit, wKey, label, price, qty: 1 });
+function addItem() {
+  var fruit = document.getElementById('fruit').value;
+  var wKey = document.getElementById('weight').value;
+  if (!fruit) { alert('복숭아 종류를 선택해주세요.'); return; }
+  if (!wKey) { alert('중량을 선택해주세요.'); return; }
+  var price = codeApplied ? PRICES[wKey].event : PRICES[wKey].normal;
+  cart.push({ fruit: fruit, wKey: wKey, price: price, qty: 1 });
   render();
-
-  document.getElementById('fruit').selectedIndex  = 0;
+  document.getElementById('fruit').selectedIndex = 0;
   document.getElementById('weight').selectedIndex = 0;
   document.getElementById('shinbiInfo').style.display = 'none';
 }
 
-// ── 코드 적용/해제 시 기존 항목 가격 재계산 ──────────
-function recalcCart(){
-  cart = cart.map(c => ({
-    ...c,
-    price: codeApplied ? PRICES[c.wKey].event : PRICES[c.wKey].normal
-  }));
+function recalcCart() {
+  for (var i = 0; i < cart.length; i++) {
+    cart[i].price = codeApplied ? PRICES[cart[i].wKey].event : PRICES[cart[i].wKey].normal;
+  }
 }
 
-// ── 화면 렌더링 ──────────────────────────────────────
-function render(){
-  let total = 0, html = '';
-  cart.forEach((c, i) => {
+function render() {
+  var total = 0;
+  var html = '';
+  for (var i = 0; i < cart.length; i++) {
+    var c = cart[i];
     total += c.price * c.qty;
-    html += `<div class="item">
-      <div>${c.fruit}<br>${c.label} — ${c.price.toLocaleString()}원</div>
-      <div class="qty">
-        <button onclick="chg(${i},-1)">-</button>
-        ${c.qty}
-        <button onclick="chg(${i},1)">+</button>
-        <button onclick="delItem(${i})">✕</button>
-      </div>
-    </div>`;
-  });
+    html += '<div class="item">'
+      + '<div>' + c.fruit + '<br>' + c.wKey + ' - ' + c.price.toLocaleString() + '원</div>'
+      + '<div class="qty">'
+      + '<button onclick="chg(' + i + ',-1)">-</button>'
+      + c.qty
+      + '<button onclick="chg(' + i + ',1)">+</button>'
+      + '<button onclick="delItem(' + i + ')">X</button>'
+      + '</div></div>';
+  }
   document.getElementById('cart').innerHTML = html || '선택된 상품 없음';
-  document.getElementById('total').innerText  = total.toLocaleString() + '원';
+  document.getElementById('total').innerText = total.toLocaleString() + '원';
   document.getElementById('btotal').innerText = total.toLocaleString() + '원';
 }
 
-function chg(i, d){ cart[i].qty = Math.max(1, cart[i].qty + d); render(); }
-function delItem(i){ cart.splice(i, 1); render(); }
+function chg(i, d) { cart[i].qty = Math.max(1, cart[i].qty + d); render(); }
+function delItem(i) { cart.splice(i, 1); render(); }
 
-// ── 계좌번호 복사 ─────────────────────────────────────
-function copyAccount(){
-  const num = '3333-28-9334030';
-  navigator.clipboard.writeText(num).then(()=>{
-    document.getElementById('copyDone').style.display = 'block';
-    document.querySelector('.copy-hint').style.display = 'none';
-  }).catch(()=>{
-    // 구형 브라우저 fallback
-    const el = document.createElement('textarea');
-    el.value = num;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    document.getElementById('copyDone').style.display = 'block';
-    document.querySelector('.copy-hint').style.display = 'none';
-  });
+function copyAccount() {
+  var num = '3333-28-9334030';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num).then(showCopied).catch(function() { fallbackCopy(num); });
+  } else {
+    fallbackCopy(num);
+  }
 }
-
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('show');
+function fallbackCopy(text) {
+  var el = document.createElement('textarea');
+  el.value = text;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  showCopied();
+}
+function showCopied() {
+  document.getElementById('copyDone').style.display = 'block';
+  document.querySelector('.copy-hint').style.display = 'none';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  document.getElementById('copyDone').style.display = 'none';
   document.querySelector('.copy-hint').style.display = 'block';
 }
 
-// ── 주소 검색 ───────────
+function execDaumPostcode() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      document.getElementById('postcode').value = data.zonecode;
+      document.getElementById('addr').value = data.address;
+      document.getElementById('addr2').focus();
+    }
+  }).open();
+}
+
+function order() {
+  if (cart.length === 0) { alert('상품을 선택해주세요.'); return; }
+  var totalPrice = document.getElementById('btotal').innerText;
+  var orderItems = '';
+  for (var i = 0; i < cart.length; i++) {
+    var c = cart[i];
+    orderItems += c.fruit + ' / ' + c.wKey + ' (' + c.price.toLocaleString() + '원) x ' + c.qty + '\n';
+  }
+  var payload = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    postcode: document.getElementById('postcode').value,
+    address: document.getElementById('addr').value,
+    address2: document.getElementById('addr2').value,
+    memo: document.getElementById('memo').value,
+    orderItems: orderItems,
+    totalPrice: totalPrice,
+    eventCode: codeApplied ? document.getElementById('codeInput').value : ''
+  };
+  var formData = new FormData();
+  formData.append('data', JSON.stringify(payload));
+  fetch('https://script.google.com/macros/s/AKfycbzpOYcJaoRkWupvcjKbP8mZ6oGAwakx599D5QLbWCA_AD0_Ua3ltuGwhCDhkwEHKul3eQ/exec', {
+    method: 'POST',
+    body: formData
+  }).then(function(r) { return r.json(); }).then(function(result) {
+    document.getElementById('modalOrderNo').innerText = '주문번호 : ' + (result.orderNo || '생성중');
+    document.getElementById('copyDone').style.display = 'none';
+    document.getElementById('modalOverlay').style.display = 'flex';
+    cart = [];
+    codeApplied = false;
+    render();
+    var fields = ['name','phone','postcode','addr','addr2','memo','codeInput'];
+    for (var i = 0; i < fields.length; i++) { document.getElementById(fields[i]).value = ''; }
+    document.getElementById('fruit').selectedIndex = 0;
+    document.getElementById('weight').selectedIndex = 0;
+    document.getElementById('codeOk').style.display = 'none';
+    document.getElementById('codeErr').style.display = 'none';
+    document.getElementById('discountBadge').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }).catch(function(e) {
+    console.error(e);
+    alert('주문 저장에 실패했습니다. Apps Script 권한 또는 배포 설정을 확인해주세요.');
+  });
+}
+</script>
+
+</body>
+</html>
