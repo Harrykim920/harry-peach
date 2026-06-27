@@ -15,6 +15,7 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 .item{border:1px solid #eee;border-radius:10px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;gap:10px}
 .bottom{position:sticky;bottom:0;background:#fff;padding:12px;border-top:1px solid #ddd}
 .orderbtn{width:100%;background:#ef7f54;color:#fff;border:none;padding:16px;border-radius:12px;font-size:18px}
+.orderbtn:disabled{background:#ccc;cursor:not-allowed}
 .chat{position:fixed;right:15px;bottom:90px;background:#fae100;color:#000;padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:bold}
 .qty button{width:28px;height:28px}
 .small{font-size:13px;color:#666}
@@ -63,10 +64,10 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   </select>
   <select id="weight">
     <option value="">📦 중량 선택</option>
-    <option value="2.5kg">2.5kg(20-25과) (24,900원)</option>
-    <option value="5kg">5kg(40-50과) (39,900원)</option>
+    <option value="2.5kg">2.5kg (24,900원)</option>
+    <option value="5kg">5kg (39,900원)</option>
   </select>
-  <button class="btn add" onclick="addItem()">상품 선택</button>
+  <button class="btn add" onclick="addItem()">상품 추가</button>
 </div>
 
 <div class="card" id="shinbiInfo">
@@ -78,6 +79,7 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <div class="card">
   <h3>🎟 이벤트 코드</h3>
+  <p style="font-size:13px;color:#666;margin:4px 0 8px">희상채널 구독자 특별 할인코드를 입력하시면<br>2.5kg <b>20,000원</b> / 5kg <b>35,000원</b> 특가로 구매하실 수 있습니다.</p>
   <div class="code-row">
     <input id="codeInput" placeholder="이벤트 코드 입력">
     <button class="code-btn" onclick="applyCode()">적용</button>
@@ -113,11 +115,11 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <button class="orderbtn" onclick="order()">주문하기</button>
 </div>
 
-<a class="chat" href="https://open.kakao.com/o/smxbeCAi" target="_blank">💬 문의</a>
+<a class="chat" href="https://open.kakao.com/o/smxbeCAi" target="_blank">💬 카카오톡 문의</a>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h2>🎉 주문해주셔서 진심으로 감사드립니다!</h2>
+    <h2>🎉 주문 접수 완료!</h2>
     <div class="order-no" id="modalOrderNo"></div>
     <p style="font-size:14px;color:#333;margin:0 0 4px">아래 계좌로 입금해주세요</p>
     <div class="account-box" onclick="copyAccount()">
@@ -249,6 +251,9 @@ function execDaumPostcode() {
 
 function order() {
   if (cart.length === 0) { alert('상품을 선택해주세요.'); return; }
+  var btn = document.querySelector('.orderbtn');
+  btn.disabled = true;
+  btn.innerText = '⏳ 처리중...';
   if (!document.getElementById('name').value.trim()) { alert('이름을 입력해주세요.'); document.getElementById('name').focus(); return; }
   if (!document.getElementById('phone').value.trim()) { alert('연락처를 입력해주세요.'); document.getElementById('phone').focus(); return; }
   if (!document.getElementById('addr').value.trim()) { alert('주소를 검색해주세요.'); return; }
@@ -288,9 +293,13 @@ function order() {
     document.getElementById('codeOk').style.display = 'none';
     document.getElementById('codeErr').style.display = 'none';
     document.getElementById('discountBadge').style.display = 'none';
+    btn.disabled = false;
+    btn.innerText = '주문하기';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }).catch(function(e) {
     console.error(e);
+    btn.disabled = false;
+    btn.innerText = '주문하기';
     alert('주문 저장에 실패했습니다. Apps Script 권한 또는 배포 설정을 확인해주세요.');
   });
 }
