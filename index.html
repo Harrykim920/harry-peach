@@ -69,13 +69,13 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <select id="fruit">
     <option value="">🍑 복숭아 종류 선택</option>
     <option disabled>🍑 신비복숭아 (판매완료)</option>
-    <option disabled>🚧 딱복(딱딱복숭아) (7월 오픈예정)</option>
-    <option disabled>🚧 물복(물렁복숭아) (7월 오픈예정)</option>
+    <option value="황도">🍑 황도(물렁복숭아)</option>
+    <option disabled>🚧 백도(딱딱복숭아) (곧 오픈예정)</option>
   </select>
   <select id="weight">
     <option value="">📦 중량 선택</option>
-    <option value="2.5kg">2.5kg(20-25과) (24,900원)</option>
-    <option value="5kg">5kg(40-50과) (39,900원)</option>
+    <option value="2.5kg">2.5kg(8-10과) (29,900원)</option>
+    <option value="5kg">4kg(12-14과) (39,900원)</option>
   </select>
   <button class="btn add" onclick="addItem()">상품 선택</button>
 </div>
@@ -89,14 +89,14 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <div class="card">
   <h3>🎟 이벤트 코드</h3>
-  <p style="font-size:13px;color:#666;margin:4px 0 8px">희상채널 구독자 특별 할인코드를 입력하시면<br>2.5kg <b>20,000원</b> / 5kg <b>35,000원</b> 특가로 구매하실 수 있습니다.</p>
+<p style="font-size:13px;color:#666;margin:4px 0 8px">8월 한정 특별할인코드 입력시 2,000원 즉시 할인!</p>
   <div class="code-row">
     <input id="codeInput" placeholder="이벤트 코드 입력">
     <button class="code-btn" onclick="applyCode()">적용</button>
   </div>
   <div class="code-ok" id="codeOk">✅ 할인이 적용되었습니다!</div>
   <div class="code-err" id="codeErr">❌ 유효하지 않은 코드입니다.</div>
-  <div class="discount-badge" id="discountBadge">🎉 이벤트 할인 적용 중 - 2.5kg 20,000원 / 5kg 35,000원</div>
+<div class="discount-badge" id="discountBadge">🎉 할인 적용 중 - 2,000원 즉시 할인!</div>
 </div>
 
 <div class="card">
@@ -146,10 +146,10 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
 <script>
 var PRICES = {
-  '2.5kg': { normal: 24900, event: 20000 },
-  '5kg': { normal: 39900, event: 35000 }
+  '2.5kg': { normal: 29900, event: 27900 },
+  '5kg': { normal: 39900, event: 37900 }
 };
-var EVENT_CODES = ['HEESANG26', 'CHANGHO50'];
+var EVENT_CODES = ['SUMMER'];
 var cart = [];
 var codeApplied = false;
 
