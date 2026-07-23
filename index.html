@@ -166,9 +166,15 @@ function updateProductInfo() {
 
   var hwangdoImg = document.getElementById('hwangdoImg');
   var hwangdoPackImg = document.getElementById('hwangdoPackImg');
-  if (fruit === '황도' && weight) {
-    hwangdoPackImg.src = weight === '2.5kg' ? 'hwangdo-2.5KG.png' : 'hwangdo-4KG.png';
+  if (fruit === '황도') {
     hwangdoImg.style.display = 'block';
+    if (weight === '2.5kg') {
+      hwangdoPackImg.src = 'hwangdo-2.5KG.png';
+    } else if (weight === '5kg') {
+      hwangdoPackImg.src = 'hwangdo-4KG.png';
+    } else {
+      hwangdoPackImg.src = 'hwangdo-Silsa.png';
+    }
   } else {
     hwangdoImg.style.display = 'none';
   }
