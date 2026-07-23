@@ -87,6 +87,10 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <img src="shinbi-cut.png" class="section-img">
 </div>
 
+  <div class="card" id="hwangdoImg" style="display:none">
+  <img id="hwangdoPackImg" src="" class="section-img">
+</div>
+  
 <div class="card">
   <h3>🎟 이벤트 코드</h3>
 <p style="font-size:13px;color:#666;margin:4px 0 8px">8월 한정 특별할인코드 입력시 2,000원 즉시 할인!</p>
@@ -153,11 +157,26 @@ var EVENT_CODES = ['SUMMER'];
 var cart = [];
 var codeApplied = false;
 
+function updateProductInfo() {
+  var fruit = document.getElementById('fruit').value;
+  var weight = document.getElementById('weight').value;
+
+  document.getElementById('shinbiInfo').style.display =
+    fruit === '신비복숭아' ? 'block' : 'none';
+
+  var hwangdoImg = document.getElementById('hwangdoImg');
+  var hwangdoPackImg = document.getElementById('hwangdoPackImg');
+  if (fruit === '황도' && weight) {
+    hwangdoPackImg.src = weight === '2.5kg' ? 'hwangdo-2.5KG.png' : 'hwangdo-4KG.png';
+    hwangdoImg.style.display = 'block';
+  } else {
+    hwangdoImg.style.display = 'none';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('fruit').addEventListener('change', function() {
-    document.getElementById('shinbiInfo').style.display =
-      this.value === '신비복숭아' ? 'block' : 'none';
-  });
+  document.getElementById('fruit').addEventListener('change', updateProductInfo);
+  document.getElementById('weight').addEventListener('change', updateProductInfo);
   document.getElementById('codeInput').addEventListener('input', function() {
     this.value = this.value.toUpperCase();
   });
