@@ -70,7 +70,7 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
     <option value="">🍑 복숭아 종류 선택</option>
     <option disabled>🍑 신비복숭아 (판매완료)</option>
     <option value="황도">🍑 황도(물렁복숭아)</option>
-    <option disabled>🚧 백도(딱딱복숭아) (곧 오픈예정)</option>
+    <option value="백도">🍑 백도(딱딱복숭아)</option>
   </select>
   <select id="weight">
     <option value="">📦 중량 선택</option>
@@ -89,6 +89,9 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 
   <div class="card" id="hwangdoImg" style="display:none">
   <img id="hwangdoPackImg" src="" class="section-img">
+</div>
+  <div class="card" id="bekdoImg" style="display:none">
+  <img id="bekdoPackImg" src="" class="section-img">
 </div>
   
 <div class="card">
@@ -179,6 +182,21 @@ function updateProductInfo() {
     }
   } else {
     hwangdoImg.style.display = 'none';
+  }
+
+  var bekdoImg = document.getElementById('bekdoImg');
+  var bekdoPackImg = document.getElementById('bekdoPackImg');
+  if (fruit === '백도') {
+    bekdoImg.style.display = 'block';
+    if (weight === '2.5kg') {
+      bekdoPackImg.src = 'bekdo-2.5kg.png';
+    } else if (weight === '4kg') {
+      bekdoPackImg.src = 'bekdo-4kg.png';
+    } else {
+      bekdoPackImg.src = 'bekdo-Silsa.png';
+    }
+  } else {
+    bekdoImg.style.display = 'none';
   }
 }
 
