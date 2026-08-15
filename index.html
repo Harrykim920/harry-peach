@@ -270,11 +270,18 @@ function saveAddrField(id) {
 function openPostcode(id) {
   new daum.Postcode({
     oncomplete: function(data) {
-      document.getElementById('pc-' + id).value = data.zonecode;
-      document.getElementById('ad-' + id).value = data.address;
-      document.getElementById('ad2-' + id).focus();
       var block = addrBlocks.find(function(b){ return b.id === id; });
-      if (block) { block.postcode = data.zonecode; block.addr = data.address; }
+      if (block) {
+        block.postcode = data.zonecode;
+        block.addr = data.address;
+      }
+      // 리렌더링 전에 현재 다른 필드값 먼저 저장
+      saveAddrField(id);
+      // 리렌더링으로 input 새로 그리기
+      renderAddrList();
+      // 상세주소 포커스
+      var ad2 = document.getElementById('ad2-' + id);
+      if (ad2) ad2.focus();
     }
   }).open();
 }
