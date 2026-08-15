@@ -105,6 +105,13 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 </div>
 
 <div class="card">
+  <h3>📦 배송지 및 상품 선택</h3>
+  <p style="font-size:13px;color:#888;margin:0 0 12px">각 배송지별로 받으시는 분, 주소, 상품을 따로 선택할 수 있어요. 여러 곳에 보낼 경우 배송지를 추가하세요.</p>
+  <div id="addr-list"></div>
+  <button class="add-addr-btn" onclick="addAddrBlock()">+ 배송지 추가하기</button>
+</div>
+
+<div class="card">
   <h3>주문자 정보</h3>
   <label style="font-size:13px;color:#333">이름 <span style="color:#e53935">*필수</span></label>
   <input id="name" placeholder="이름을 입력하세요">
@@ -112,13 +119,6 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
   <input id="phone" placeholder="연락처를 입력하세요">
   <label style="font-size:13px;color:#333">입금자명 <span style="color:#888">(주문자와 다를 경우 입력)</span></label>
   <input id="depositor" placeholder="입금하실 분 성함">
-</div>
-
-<div class="card">
-  <h3>📦 배송지 및 상품 선택</h3>
-  <p style="font-size:13px;color:#888;margin:0 0 12px">각 배송지별로 주소와 상품을 따로 선택할 수 있어요. 여러 곳에 보낼 경우 배송지를 추가하세요.</p>
-  <div id="addr-list"></div>
-  <button class="add-addr-btn" onclick="addAddrBlock()">+ 배송지 추가하기</button>
 </div>
 
 <div class="card">
@@ -193,13 +193,13 @@ select,input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd
 var PRICES = { '2.5kg': { normal: 29900, event: 27900 }, '4kg': { normal: 39900, event: 37900 } };
 var EVENT_CODES = ['SUMMER'];
 var codeApplied = false;
-var addrBlocks = []; // [{ id, postcode, addr, addr2, memo, items:[] }]
+var addrBlocks = []; // [{ id, recvName, recvPhone, postcode, addr, addr2, memo, items:[] }]
 var addrCounter = 0;
 
 /* ── 배송지 블록 ────────────────────────────────── */
 function addAddrBlock() {
   var id = ++addrCounter;
-  addrBlocks.push({ id: id, postcode: '', addr: '', addr2: '', memo: '', items: [] });
+  addrBlocks.push({ id: id, recvName: '', recvPhone: '', postcode: '', addr: '', addr2: '', memo: '', items: [] });
   renderAddrList();
 }
 
@@ -227,6 +227,10 @@ function renderAddrList() {
     html += '<div class="addr-block" id="ablock-' + block.id + '">'
       + '<div class="addr-block-title">📦 배송지 ' + (idx + 1) + '</div>'
       + (addrBlocks.length > 1 ? '<button class="addr-del-btn" onclick="removeAddrBlock(' + block.id + ')">삭제</button>' : '')
+      + '<label style="font-size:13px;color:#333">받으시는 분 <span style="color:#e53935">*필수</span></label>'
+      + '<input id="rname-' + block.id + '" placeholder="받으시는 분 이름" value="' + block.recvName + '" oninput="saveAddrField(' + block.id + ')">'
+      + '<label style="font-size:13px;color:#333">연락처 <span style="color:#e53935">*필수</span></label>'
+      + '<input id="rphone-' + block.id + '" placeholder="받으시는 분 연락처" value="' + block.recvPhone + '" oninput="saveAddrField(' + block.id + ')">'
       + '<label style="font-size:13px;color:#333">주소 <span style="color:#e53935">*필수</span></label>'
       + '<button type="button" class="btn" style="margin-bottom:6px" onclick="openPostcode(' + block.id + ')">주소 검색</button>'
       + '<input id="pc-' + block.id + '" placeholder="우편번호" readonly value="' + block.postcode + '">'
@@ -257,7 +261,9 @@ function renderAddrList() {
 function saveAddrField(id) {
   var block = addrBlocks.find(function(b){ return b.id === id; });
   if (!block) return;
-  block.addr2 = document.getElementById('ad2-' + id).value;
+  block.recvName  = document.getElementById('rname-'  + id).value;
+  block.recvPhone = document.getElementById('rphone-' + id).value;
+  block.addr2 = document.getElementById('ad2-'  + id).value;
   block.memo  = document.getElementById('memo-' + id).value;
 }
 
@@ -360,9 +366,10 @@ function order() {
 
   var addrOk = true;
   addrBlocks.forEach(function(b, idx) {
-    if (b.items.length > 0 && !b.addr) {
-      alert((idx+1) + '번째 배송지 주소를 검색해주세요.'); addrOk = false;
-    }
+    if (b.items.length === 0) return;
+    if (!b.recvName)  { alert((idx+1) + '번째 배송지 받으시는 분 이름을 입력해주세요.'); addrOk = false; }
+    if (!b.recvPhone) { alert((idx+1) + '번째 배송지 연락처를 입력해주세요.'); addrOk = false; }
+    if (!b.addr)      { alert((idx+1) + '번째 배송지 주소를 검색해주세요.'); addrOk = false; }
   });
   if (!addrOk) return;
 
@@ -378,6 +385,7 @@ function order() {
     if (block.items.length === 0) return;
     var addrSub = block.addr + (block.addr2 ? ' ' + block.addr2 : '');
     addrHtml += '<div class="confirm-addr-block"><h5>배송지 ' + (idx+1) + '</h5>'
+      + '<div style="font-size:13px;color:#333;margin-bottom:4px">👤 ' + block.recvName + ' · ' + block.recvPhone + '</div>'
       + '<div style="font-size:13px;color:#555;margin-bottom:6px">📍 ' + addrSub + '</div>'
       + (block.memo ? '<div style="font-size:12px;color:#888;margin-bottom:6px">메모: ' + block.memo + '</div>' : '');
     block.items.forEach(function(it) {
@@ -415,7 +423,8 @@ function doOrder() {
   var orderLines = '';
   addrBlocks.forEach(function(block, idx) {
     if (block.items.length === 0) return;
-    orderLines += '[배송지' + (idx+1) + '] ' + block.addr + (block.addr2 ? ' ' + block.addr2 : '');
+    orderLines += '[배송지' + (idx+1) + '] 받는분: ' + block.recvName + ' / ' + block.recvPhone + '\n';
+    orderLines += '  주소: ' + block.addr + (block.addr2 ? ' ' + block.addr2 : '');
     if (block.memo) orderLines += ' / 메모:' + block.memo;
     orderLines += '\n';
     block.items.forEach(function(it) {
