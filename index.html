@@ -260,9 +260,9 @@ function renderAddrList() {
       + '<select id="fruit-' + block.id + '" onchange="updateAddrProductInfo(' + block.id + ')">'
       + '<option value="">🍑 과일 종류 선택</option>'
       + '<option disabled>🍑 신비복숭아 (판매완료)</option>'
-      + '<option disabled>🍑 물렁복숭아 (일시품절)</option>'
-      + '<option value="천하제일도(딱복)"' + (currentFruit === '천하제일도(딱복)' ? ' selected' : '') + '>🍑 천하제일도 (딱복)</option>'
-      + '<option value="자두(추희)"' + (currentFruit === '자두(추희)' ? ' selected' : '') + '>🍇 자두(추희)</option>'
+      + '<option disabled>🍑 물렁복숭아 (판매완료)</option>'
+      + '<option disabled>🍑 딱딱복숭아 (판매완료)</option>'
+      + '<option value="자두(추희)"' + (currentFruit === '자두(추희)' ? ' selected' : '') + '>🍑 자두(추희)</option>'
       + '</select>'
       + '<select id="weight-' + block.id + '">'
       + getWeightOptions(currentFruit)
@@ -514,6 +514,16 @@ function closeModal() {
   document.querySelector('.copy-hint').style.display = 'block';
 }
 </script>
-
+<div class="modal-overlay" id="welcomeOverlay" style="display:flex">
+  <div class="modal">
+    <h2>🍑 안녕하세요!</h2>
+    <p style="font-size:15px;line-height:1.8;color:#333;margin:12px 0">
+      올해 복숭아가 끝나서 아쉬우셨죠?<br><br>
+      대신 추석 선물로 딱 좋은<br>
+      <b style="color:#ef7f54">새콤달콤한 자두 추희</b> 판매를 준비했습니다! 🍑
+    </p>
+    <button class="close-btn" onclick="document.getElementById('welcomeOverlay').style.display='none'">확인</button>
+  </div>
+</div>
 </body>
 </html>
