@@ -219,7 +219,7 @@ function removeAddrBlock(id) {
 function getWeightOptions(fruit) {
   if (fruit === '자두(추희)') {
     return '<option value="">📦 중량 선택</option>'
-      + '<option value="5kg">5kg — 45,000원</option>';
+      + '<option value="5kg">5kg(35-40과) — 45,000원</option>';
   }
   return '<option value="">📦 중량 선택</option>'
     + '<option value="2.5kg">2.5kg(8-10과) — 29,900원</option>'
@@ -518,13 +518,12 @@ function closeModal() {
   <div class="modal">
     <h2>🍑 안녕하세요!</h2>
     <img src="PLUM(CHUHEE).png" style="width:100%;border-radius:12px;margin:8px 0">
-    <p style="font-size:15px;line-height:1.8;color:#333;margin:12px 0">
-      올해 복숭아가 끝나서 아쉬우셨죠?<br><br>
-      대신 추석 선물로 딱 좋은<br>
-      <b style="color:#ef7f54">자두계의 끝판왕! 새콤달콤한 자두 추희</b> 를 준비했습니다! 🍑<br>
-      한정수량으로 일요일 주문분 까지 다음주에 배송 됩니다!
-      
-    </p>
+<p style="font-size:15px;line-height:1.8;color:#333;margin:12px 0;text-align:left">
+  올해 복숭아가 끝나서 아쉬우셨죠?<br><br>
+  대신 추석 선물로 딱 좋은<br>
+  <b style="color:#ef7f54">자두계의 끝판왕! 새콤달콤한 자두 추희</b>를 준비했습니다! 🍑<br><br>
+  한정수량으로 일요일 주문분까지 다음주에 배송됩니다!
+</p>
     <button class="close-btn" onclick="document.getElementById('welcomeOverlay').style.display='none'">확인</button>
   </div>
 </div>
